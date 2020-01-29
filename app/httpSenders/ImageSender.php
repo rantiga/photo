@@ -12,7 +12,7 @@ class ImageSender extends AbstractSender
             $response[] = [
                 'imageId' => $value['id'],
                 'userId' => $value['user_id'],
-                'imagePath' => $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['REMOTE_ADDR'] . $value['path'],
+                'imagePath' => $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $value['path'],
                 'imageName' => $value['header'],
                 'imageDescription' => $value['description'],
                 'imageType' => $value['img_type']
