@@ -1,0 +1,36 @@
+version: '3.3'
+
+services:
+  mysql:
+    image: mysql:latest
+    ports:
+       - '3306:3306'
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=develop
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+    volumes:
+      - ./mysql:/var/lib/mysql
+
+  phpfpm:
+    container_name: phpfpm
+    build: .
+    volumes:
+      - ./app:/app
+    expose:
+      - 9000
+    links:
+      - mysql
+
+  nginx:
+    container_name: nginx
+    image: nginx:alpine 
+    ports:
+      - '80:80'
+    volumes:
+      - ./app:/app
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    links:
+      - phpfpm

@@ -1,0 +1,19 @@
+{
+  "GET": [
+    {"pattern": "api/v1/users", "class": "app\\controllers\\UserController"},
+    {"pattern": "api/v1/users/{user_id:\\d+}", "class": "app\\controllers\\UserController"},
+    {"pattern": "api/v1/users/{user_id:\\d+}/images", "class": "app\\controllers\\ImageController"},
+    {"pattern": "api/v1/users/{user_id:\\d+}/images/{image_id:\\d+}", "class": "app\\controllers\\ImageController"}
+  ],
+  "POST": [
+    {"pattern": "api/v1/users", "class": "app\\controllers\\UserController"},
+    {"pattern": "api/v1/users/{user_id:\\d+}/images", "class": "app\\controllers\\ImageController"}
+  ],
+  "PUT": [
+    {"pattern": "api/v1/users/{user_id:\\d+}", "class": "app\\controllers\\UserController"}
+  ],
+  "DELETE": [
+    {"pattern": "api/v1/users/{user_id:\\d+}/images", "class": "app\\controllers\\ImageController"},
+    {"pattern": "api/v1/users/{user_id:\\d+}/images/{image_id:\\d+}", "class": "app\\controllers\\ImageController"}
+  ]
+}
