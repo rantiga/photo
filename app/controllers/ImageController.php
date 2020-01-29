@@ -48,8 +48,8 @@ class ImageController extends AbstractController
 
         foreach ($values['files'] as $key => $fileData) {
             $imageInfo = getimagesize($fileData['tmp_name']);
-            $imageName = empty($values['requestValues']['fileInfo'][$key]['name']) ?? '';
-	    $imageDescription = empty($values['requestValues']['fileInfo'][$key]['description']) ?? '';
+            $imageName = $values['requestValues']['fileInfo'][$key]['name'] ?? '';
+	    $imageDescription = $values['requestValues']['fileInfo'][$key]['description'] ?? '';
 
             $image->
             setName($imageName)->
