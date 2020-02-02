@@ -20,8 +20,8 @@ class ImageMapper
     public function save(): void
     {
         $state = $this->pdo->prepare(
-            'INSERT INTO images (user_id, path, cast, header, description, img_type) 
-                      VALUES (:user_id, :path, :cast, :header, :description, :img_type)'
+            'INSERT INTO images (user_id, path, cast, header, description, img_type, hash) 
+                      VALUES (:user_id, :path, :cast, :header, :description, :img_type, :hash)'
         );
 
         $executeValues = [
@@ -30,7 +30,8 @@ class ImageMapper
             ':cast' => $this->image->getCast(),
             ':header' => $this->image->getName(),
             ':description' => $this->image->getDescription(),
-            ':img_type' => $this->image->getMimeType()
+            ':img_type' => $this->image->getMimeType(),
+            ':hash' => $this->image->getHash()
         ];
 
         if (!$this->checkEmptiness($executeValues)) {
@@ -46,10 +47,11 @@ class ImageMapper
 
     public function getById(): array
     {
-        $state = $this->pdo->prepare('SELECT * FROM images WHERE id = :id');
+        $state = $this->pdo->prepare('SELECT * FROM images WHERE id = :id AND user_id = :user_id');
 
         $executeValues = [
-            ':id' => $this->image->getId()
+            ':id' => $this->image->getId(),
+            ':user_id' => $this->image->getUserId()
         ];
 
         if (!$this->checkEmptiness($executeValues)) {
@@ -63,21 +65,43 @@ class ImageMapper
         return $result;
     }
 
-    public function getByUserId(string $searchName, string $searchDescription): array
+    public function getByUserId(
+        string $searchName = NULL,
+        string $searchDescription = NULL,
+        string $sorting = NULL,
+        string $startLimit = NULL,
+        string $endLimit = NULL
+    ): array
     {
-        $state = $this->pdo->prepare('SELECT * FROM images WHERE user_id = :user_id 
-        AND header LIKE "%' . $searchName . '%" 
-        AND description LIKE "%' . $searchDescription . '%"'
-        );
+        $sql = 'SELECT * FROM images WHERE user_id = :user_id';
 
         $executeValues = [
-            ':user_id' => $this->image->getUserId()
+            ':user_id' => $this->image->getUserId(),
         ];
 
         if (!$this->checkEmptiness($executeValues)) {
             return [];
         }
 
+        if (!empty($searchName)) {
+            $sql .= ' AND header LIKE "%' . $searchName . '%"';
+        }
+
+        if (!empty($searchDescription)) {
+            $sql .= ' AND description LIKE "%' . $searchDescription . '%"';
+        }
+
+        if (!empty($sorting) && ($sorting == 'asc' || $sorting == 'desc')) {
+            $sql .= ' ORDER BY header ' . $sorting;
+        }
+
+        if (isset($startLimit) && isset($endLimit)) {
+            $sql .= ' LIMIT ' . $startLimit . ',' . $endLimit;
+        } else {
+            $sql .= ' LIMIT 0,10';
+        }
+
+        $state = $this->pdo->prepare($sql);
         $state->execute($executeValues);
 
         $result = $state->fetchAll(PDO::FETCH_ASSOC);
@@ -119,6 +143,28 @@ class ImageMapper
         $result = $state->fetchAll(PDO::FETCH_ASSOC);
 
         return $result;
+    }
+
+    public function changeImage(): bool
+    {
+        $state = $this->pdo->prepare('UPDATE images SET header = :header, description = :description WHERE user_id = :user_id AND id = :id');
+
+        $executeValues = [
+            ':header' => $this->image->getName(),
+            ':description' => $this->image->getDescription(),
+            ':user_id' => $this->image->getUserId(),
+            ':id' => $this->image->getId()
+        ];
+
+        if (!$this->checkEmptiness($executeValues)) {
+            return false;
+        }
+
+        $state->execute($executeValues);
+
+        $state->fetch();
+
+        return true;
     }
 
     public function delete(): void

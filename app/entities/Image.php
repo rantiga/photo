@@ -11,6 +11,7 @@ class Image implements Entity
     protected $name;
     protected $description;
     protected $mimeType;
+    protected $hash;
 
     public function setId(string $id): Image
     {
@@ -54,6 +55,12 @@ class Image implements Entity
         return $this;
     }
 
+    public function setHash(string $hash): Image
+    {
+        $this->hash = $hash;
+        return $this;
+    }
+
     public function getId()
     {
         return $this->id;
@@ -87,5 +94,10 @@ class Image implements Entity
     public function getMimeType()
     {
         return $this->mimeType;
+    }
+
+    public function getHash()
+    {
+        return $this->hash;
     }
 }

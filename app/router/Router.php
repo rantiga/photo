@@ -34,6 +34,10 @@ class Router
             return $this->routes[$httpMethod][$uri];
         }
 
+        if (empty($this->routes[$httpMethod])) {
+            throw new ExceptionResponse('Route not found', '404');
+        }
+
         foreach ($this->routes[$httpMethod] as $pattern => $classData) {
             $parsedPattern = $this->patternParsing($pattern);
 
@@ -55,7 +59,7 @@ class Router
         $regExps = [];
 
         foreach ($patternExploded as $key => $value) {
-            if (preg_match('#^{[a-zA-Z0-9_\\\+:.;]+}$#', $value)) {
+            if (preg_match('#^{[a-zA-Z0-9_\-\[\]\\\+:.;]+}$#', $value)) {
                 $rule = trim($value, '{}');
                 $ruleExploded = explode(':', $rule);
 
@@ -74,7 +78,7 @@ class Router
         $values = [];
 
         foreach ($patternExploded as $key => $value) {
-            if (preg_match('#^{[a-zA-Z0-9_\\\+:.;]+}$#', $value)) {
+            if (preg_match('#^{[a-zA-Z0-9_\-\[\]\\\+:.;]+}$#', $value)) {
                 $rule = trim($value, '{}');
                 $ruleExploded = explode(':', $rule);
 

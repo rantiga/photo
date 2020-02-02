@@ -24,7 +24,7 @@ class UserController extends AbstractController
         }
 
         $sender = $this->sendersFactory->getMessageSender();
-        $sender->response('200', ['Status' => 'OK', 'User ID' => $result['id'], 'User login' => $result['login']], ['Content-Type: application/json']);
+        $sender->response('200', ['message' => 'OK', 'user_id' => $result['id'], 'user_login' => $result['login']], ['Content-Type: application/json']);
     }
 
     public function post($values)
@@ -54,6 +54,6 @@ class UserController extends AbstractController
         }
 
         $sender = $this->sendersFactory->getMessageSender();
-        $sender->response('201', ['Status' => 'OK', 'User ID' => $result], ['Content-Type: application/json']);
+        $sender->response('201', ['message' => 'OK', 'user_id' => $result], ['Content-Type: application/json']);
     }
 }

@@ -13,7 +13,7 @@ class ExceptionResponse extends \Exception
         http_response_code($code);
         header('Content-Type: application/json');
 
-        echo json_encode([$message]);
+        echo json_encode(['message' => $message]);
         exit;
     }
 }

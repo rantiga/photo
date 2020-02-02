@@ -12,7 +12,7 @@ class ImageSender extends AbstractSender
             $response[] = [
                 'imageId' => $value['id'],
                 'userId' => $value['user_id'],
-                'imagePath' => $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $value['path'],
+                'imagePath' => $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/api/v1/image/' . $value['hash'],
                 'imageName' => $value['header'],
                 'imageDescription' => $value['description'],
                 'imageType' => $value['img_type']
@@ -22,7 +22,7 @@ class ImageSender extends AbstractSender
         http_response_code($httpCode);
 
         if (empty($response)) {
-            $response = ['Message: Image not fond'];
+            $response = ['message' => 'Image not found'];
             http_response_code('404');
         }
 

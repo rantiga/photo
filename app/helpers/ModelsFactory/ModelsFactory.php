@@ -5,6 +5,7 @@ namespace app\helpers\ModelsFactory;
 use app\entities\Image;
 use app\entities\User;
 use app\helpers\FactoryInterface;
+use app\models\HashMapper;
 use app\models\ImageCaster;
 use app\models\ImageMapper;
 use app\models\ImageFiler;
@@ -31,5 +32,10 @@ class ModelsFactory implements FactoryInterface
     public function getUserMapper(PDO $pdo, User $user)
     {
         return new UserMapper($pdo, $user);
+    }
+
+    public function getHashMapper(PDO $pdo)
+    {
+        return new HashMapper($pdo);
     }
 }

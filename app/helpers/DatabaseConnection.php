@@ -10,7 +10,7 @@ class DatabaseConnection
 
     public function __construct()
     {
-        $this->connection = new PDO("mysql:host=35.158.89.24;dbname=develop", 'user', 'password');
+        $this->connection = new PDO("mysql:host=192.168.0.6;dbname=develop", 'user', 'password');
     }
 
     public function getConnection()

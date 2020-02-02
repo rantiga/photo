@@ -3,14 +3,15 @@
     {"pattern": "api/v1/users", "class": "app\\controllers\\UserController"},
     {"pattern": "api/v1/users/{user_id:\\d+}", "class": "app\\controllers\\UserController"},
     {"pattern": "api/v1/users/{user_id:\\d+}/images", "class": "app\\controllers\\ImageController"},
-    {"pattern": "api/v1/users/{user_id:\\d+}/images/{image_id:\\d+}", "class": "app\\controllers\\ImageController"}
+    {"pattern": "api/v1/users/{user_id:\\d+}/images/{image_id:\\d+}", "class": "app\\controllers\\ImageController"},
+    {"pattern": "api/v1/image/{hash:[A-Za-z0-9]+}", "class": "app\\controllers\\HashController"}
   ],
   "POST": [
     {"pattern": "api/v1/users", "class": "app\\controllers\\UserController"},
     {"pattern": "api/v1/users/{user_id:\\d+}/images", "class": "app\\controllers\\ImageController"}
   ],
   "PUT": [
-    {"pattern": "api/v1/users/{user_id:\\d+}", "class": "app\\controllers\\UserController"}
+    {"pattern": "api/v1/users/{user_id:\\d+}/images/{image_id:\\d+}", "class": "app\\controllers\\ImageController"}
   ],
   "DELETE": [
     {"pattern": "api/v1/users/{user_id:\\d+}/images", "class": "app\\controllers\\ImageController"},
